@@ -1,0 +1,81 @@
+make  all-recursive
+make[1]: Entering directory '/home/mainuser/tools/ospf-mdr'
+Making all in lib
+make[2]: Entering directory '/home/mainuser/tools/ospf-mdr/lib'
+/bin/true
+printf "#include \"built.h\"\n" > built.c
+printf "const char *quagga_built_string = \"" >> built.c
+date "+%a %b %d %H:%M:%S %Z %Y" | tr -d \\n >> built.c
+printf "\";\n" >> built.c
+make  all-am
+make[3]: Entering directory '/home/mainuser/tools/ospf-mdr/lib'
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT pid_output.lo -MD -MP -MF .deps/pid_output.Tpo -c -o pid_output.lo pid_output.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT vty.lo -MD -MP -MF .deps/vty.Tpo -c -o vty.lo vty.c
+printf "#include \"built.h\"\n" > built.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT command.lo -MD -MP -MF .deps/command.Tpo -c -o command.lo command.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT prefix.lo -MD -MP -MF .deps/prefix.Tpo -c -o prefix.lo prefix.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT table.lo -MD -MP -MF .deps/table.Tpo -c -o table.lo table.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT hash.lo -MD -MP -MF .deps/hash.Tpo -c -o hash.lo hash.c
+printf "const char *quagga_built_string = \"" >> built.c
+date "+%a %b %d %H:%M:%S %Z %Y" | tr -d \\n >> built.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT filter.lo -MD -MP -MF .deps/filter.Tpo -c -o filter.lo filter.c
+printf "\";\n" >> built.c
+/bin/bash ../libtool  --tag=CC   --mode=compile gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib     -ggdb -MT routemap.lo -MD -MP -MF .deps/routemap.Tpo -c -o routemap.lo routemap.c
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT prefix.lo -MD -MP -MF .deps/prefix.Tpo -c prefix.c  -fPIC -DPIC -o .libs/prefix.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT table.lo -MD -MP -MF .deps/table.Tpo -c table.c  -fPIC -DPIC -o .libs/table.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT vty.lo -MD -MP -MF .deps/vty.Tpo -c vty.c  -fPIC -DPIC -o .libs/vty.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT pid_output.lo -MD -MP -MF .deps/pid_output.Tpo -c pid_output.c  -fPIC -DPIC -o .libs/pid_output.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT command.lo -MD -MP -MF .deps/command.Tpo -c command.c  -fPIC -DPIC -o .libs/command.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT hash.lo -MD -MP -MF .deps/hash.Tpo -c hash.c  -fPIC -DPIC -o .libs/hash.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT filter.lo -MD -MP -MF .deps/filter.Tpo -c filter.c  -fPIC -DPIC -o .libs/filter.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT routemap.lo -MD -MP -MF .deps/routemap.Tpo -c routemap.c  -fPIC -DPIC -o .libs/routemap.o
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT pid_output.lo -MD -MP -MF .deps/pid_output.Tpo -c pid_output.c -o pid_output.o >/dev/null 2>&1
+prefix.c: In function 'prefix_default':
+prefix.c:920:31: error: passing argument 1 of 'prefix_ipv4_any' from incompatible pointer type [-Wincompatible-pointer-types]
+  920 |       return prefix_ipv4_any (p);
+      |                               ^
+      |                               |
+      |                               const struct prefix *
+prefix.c:493:44: note: expected 'const struct prefix_ipv4 *' but argument is of type 'const struct prefix *'
+  493 | prefix_ipv4_any (const struct prefix_ipv4 *p)
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+prefix.c:925:35: error: passing argument 1 of 'prefix_ipv6_default' from incompatible pointer type [-Wincompatible-pointer-types]
+  925 |       return prefix_ipv6_default (p);
+      |                                   ^
+      |                                   |
+      |                                   const struct prefix *
+prefix.c:908:48: note: expected 'const struct prefix_ipv6 *' but argument is of type 'const struct prefix *'
+  908 | prefix_ipv6_default (const struct prefix_ipv6 *p)
+      |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+make[3]: *** [Makefile:593: prefix.lo] Error 1
+make[3]: *** Waiting for unfinished jobs....
+command.c: In function 'cmd_complete_command_real':
+command.c:1880:38: warning: comparison between pointer and zero character constant [-Wpointer-compare]
+ 1880 |       if (vector_slot (vline, index) == '\0')
+      |                                      ^~
+In file included from command.c:29:
+vector.h:44:27: note: did you mean to dereference the pointer?
+   44 | #define vector_slot(V,I)  ((V)->index[(I)])
+      |                           ^
+command.c:1880:11: note: in expansion of macro 'vector_slot'
+ 1880 |       if (vector_slot (vline, index) == '\0')
+      |           ^~~~~~~~~~~
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT table.lo -MD -MP -MF .deps/table.Tpo -c table.c -o table.o >/dev/null 2>&1
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT hash.lo -MD -MP -MF .deps/hash.Tpo -c hash.c -o hash.o >/dev/null 2>&1
+mv -f .deps/pid_output.Tpo .deps/pid_output.Plo
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT routemap.lo -MD -MP -MF .deps/routemap.Tpo -c routemap.c -o routemap.o >/dev/null 2>&1
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT filter.lo -MD -MP -MF .deps/filter.Tpo -c filter.c -o filter.o >/dev/null 2>&1
+mv -f .deps/hash.Tpo .deps/hash.Plo
+mv -f .deps/table.Tpo .deps/table.Plo
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT vty.lo -MD -MP -MF .deps/vty.Tpo -c vty.c -o vty.o >/dev/null 2>&1
+mv -f .deps/routemap.Tpo .deps/routemap.Plo
+libtool: compile:  gcc -DHAVE_CONFIG_H -DSYSCONFDIR=\"/usr/local/etc/quagga/\" -I. -I.. -I.. -I.. -I../lib -ggdb -MT command.lo -MD -MP -MF .deps/command.Tpo -c command.c -o command.o >/dev/null 2>&1
+mv -f .deps/filter.Tpo .deps/filter.Plo
+mv -f .deps/vty.Tpo .deps/vty.Plo
+mv -f .deps/command.Tpo .deps/command.Plo
+make[3]: Leaving directory '/home/mainuser/tools/ospf-mdr/lib'
+make[2]: *** [Makefile:454: all] Error 2
+make[2]: Leaving directory '/home/mainuser/tools/ospf-mdr/lib'
+make[1]: *** [Makefile:488: all-recursive] Error 1
+make[1]: Leaving directory '/home/mainuser/tools/ospf-mdr'
+make: *** [Makefile:420: all] Error 2

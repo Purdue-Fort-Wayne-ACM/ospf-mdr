@@ -917,12 +917,12 @@ prefix_default (const struct prefix *p)
   switch (p->family)
     {
     case AF_INET:
-      return prefix_ipv4_any (p);
+      return prefix_ipv4_any ((void*)p);
       break;
 
 #ifdef HAVE_IPV6
     case AF_INET6:
-      return prefix_ipv6_default (p);
+      return prefix_ipv6_default ((void*)p);
       break;
 #endif /* HAVE_IPV6 */
 

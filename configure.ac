@@ -5,9 +5,9 @@
 ##  Copyright (c) 1996, 97, 98, 99, 2000 Kunihiro Ishiguro <kunihiro@zebra.org>
 ##  Portions Copyright (c) 2003 Paul Jakma <paul@dishone.st>
 ##
-AC_PREREQ(2.53)
+AC_PREREQ([2.72])
 
-AC_INIT(Quagga, 0.99.21mr2.2, [https://bugzilla.quagga.net])
+AC_INIT([Quagga],[0.99.21mr2.2],[https://bugzilla.quagga.net])
 AC_CONFIG_SRCDIR(lib/zebra.h)
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -32,8 +32,7 @@ AC_ARG_VAR([GAWK],[GNU AWK])
 dnl default is to match previous behavior
 exampledir=${sysconfdir}
 AC_ARG_ENABLE([exampledir],
-	  AC_HELP_STRING([--enable-exampledir],
-			 [specify alternate directory for examples]),
+	  AS_HELP_STRING([--enable-exampledir],[specify alternate directory for examples]),
 			 exampledir="$enableval",)
 dnl XXX add --exampledir to autoconf standard directory list somehow
 AC_SUBST(exampledir)
@@ -42,8 +41,7 @@ dnl default is to match previous behavior
 pkgsrcrcdir=""
 pkgsrcdir=""
 AC_ARG_ENABLE([pkgsrcrcdir],
-	  AC_HELP_STRING([--enable-pkgsrcrcdir],
-			 [specify directory for rc.d scripts]),
+	  AS_HELP_STRING([--enable-pkgsrcrcdir],[specify directory for rc.d scripts]),
 			 pkgsrcrcdir="$enableval"; pkgsrcdir="pkgsrc",)
 dnl XXX add --pkgsrcrcdir to autoconf standard directory list somehow
 AC_SUBST(pkgsrcdir)
@@ -213,12 +211,12 @@ AC_CACHE_CHECK([if ${MAKE-make} is GNU make], [quagga_cv_gnu_make],
 dnl -----------------
 dnl System extensions
 dnl -----------------
-AC_GNU_SOURCE
+AC_USE_SYSTEM_EXTENSIONS
 
 dnl -------
 dnl libtool
 dnl -------
-AC_PROG_LIBTOOL
+LT_INIT
 
 dnl ----------------------
 dnl Packages configuration
@@ -272,20 +270,20 @@ AC_ARG_WITH(libpam,
 AC_ARG_ENABLE(tcp-zebra,
 [  --enable-tcp-zebra      enable TCP/IP socket connection between zebra and protocol daemon])
 AC_ARG_ENABLE(opaque-lsa,
-  AC_HELP_STRING([--disable-opaque-lsa],[do not build OSPF Opaque-LSA with OSPFAPI support (RFC2370)]))
+  AS_HELP_STRING([--disable-opaque-lsa],[do not build OSPF Opaque-LSA with OSPFAPI support (RFC2370)]))
 AC_ARG_ENABLE(ospfapi,
 [  --disable-ospfapi       do not build OSPFAPI to access the OSPF LSA Database])
 AC_ARG_ENABLE(ospfclient,
 [  --disable-ospfclient    do not build OSPFAPI client for OSPFAPI, 
                           (this is the default if --disable-ospfapi is set)])
 AC_ARG_ENABLE(ospf-te,
-  AC_HELP_STRING([--disable-ospf-te],[disable Traffic Engineering Extension to OSPF]))
+  AS_HELP_STRING([--disable-ospf-te],[disable Traffic Engineering Extension to OSPF]))
 AC_ARG_ENABLE(multipath,
 [  --enable-multipath=ARG  enable multipath function, ARG must be digit])
 AC_ARG_ENABLE(user,
-  AC_HELP_STRING([--enable-user=user], [user to run Quagga suite as (default quagga)]))
+  AS_HELP_STRING([--enable-user=user],[user to run Quagga suite as (default quagga)]))
 AC_ARG_ENABLE(group,
-  AC_HELP_STRING([--enable-group=group], [group to run Quagga suite as (default quagga)]))
+  AS_HELP_STRING([--enable-group=group],[group to run Quagga suite as (default quagga)]))
 AC_ARG_ENABLE(vty_group,
 [  --enable-vty-group=ARG  set vty sockets to have specified group as owner])
 AC_ARG_ENABLE(configfile_mask,
@@ -454,14 +452,47 @@ AC_C_CONST
 AC_C_INLINE
 AC_C_RESTRICT
 AC_C_VOLATILE
-AC_HEADER_STDC
-AC_HEADER_TIME
+m4_warn([obsolete],
+[The preprocessor macro 'STDC_HEADERS' is obsolete.
+  Except in unusual embedded environments, you can safely include all
+  C89 headers unconditionally.])dnl
+# Autoupdate added the next two lines to ensure that your configure
+# script's behavior did not change.  They are probably safe to remove.
+AC_CHECK_INCLUDES_DEFAULT
+AC_PROG_EGREP
+
+m4_warn([obsolete],
+[Update your code to rely only on HAVE_SYS_TIME_H,
+then remove this warning and the obsolete code below it.
+All current systems provide time.h; it need not be checked for.
+Not all systems provide sys/time.h, but those that do, all allow
+you to include it and time.h simultaneously.])dnl
+AC_CHECK_HEADERS_ONCE([sys/time.h])
+# Obsolete code to be removed.
+if test $ac_cv_header_sys_time_h = yes; then
+  AC_DEFINE([TIME_WITH_SYS_TIME],[1],[Define to 1 if you can safely include both <sys/time.h>
+	     and <time.h>.  This macro is obsolete.])
+fi
+# End of obsolete code.
+
 AC_HEADER_SYS_WAIT
 dnl AC_TYPE_PID_T
 AC_TYPE_UID_T
 AC_TYPE_MODE_T
 AC_TYPE_SIZE_T
-AC_TYPE_SIGNAL
+m4_warn([obsolete],
+[your code may safely assume C89 semantics that RETSIGTYPE is void.
+Remove this warning and the 'AC_CACHE_CHECK' when you adjust the code.])dnl
+AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],[AC_COMPILE_IFELSE(
+[AC_LANG_PROGRAM([#include <sys/types.h>
+#include <signal.h>
+],
+		 [return *(signal (0, 0)) (0) == 1;])],
+		   [ac_cv_type_signal=int],
+		   [ac_cv_type_signal=void])])
+AC_DEFINE_UNQUOTED([RETSIGTYPE],[$ac_cv_type_signal],[Define as the return type of signal handlers
+		    ('int' or 'void').])
+
 AC_STRUCT_TM
 
 dnl -------------------------
@@ -751,7 +782,7 @@ AC_SUBST(LIBPAM)
 dnl -------------------------------
 dnl Endian-ness check
 dnl -------------------------------
-AC_WORDS_BIGENDIAN
+AC_C_BIGENDIAN
 if test $ac_cv_c_bigendian = no; then
   AC_DEFINE(WORDS_SMALLENDIAN,1,little-endian processor)
 fi
@@ -855,7 +886,7 @@ elif test "$opsys" = "irix" ; then
   KERNEL_METHOD="kernel_socket.o"
   RT_METHOD="rt_socket.o"
 else
-  AC_TRY_RUN([#include <errno.h>
+  AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <errno.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 
@@ -867,13 +898,10 @@ main ()
   if (ac_sock < 0 && errno == EINVAL)
     exit (1);
   exit (0);
-}],
-  [KERNEL_METHOD=kernel_socket.o
+}]])],[KERNEL_METHOD=kernel_socket.o
    RT_METHOD=rt_socket.o
-   AC_MSG_RESULT(socket)],
-  [RT_METHOD=rt_ioctl.o
-   AC_MSG_RESULT(ioctl)],
-  [KERNEL_METHOD=kernel_socket.o
+   AC_MSG_RESULT(socket)],[RT_METHOD=rt_ioctl.o
+   AC_MSG_RESULT(ioctl)],[KERNEL_METHOD=kernel_socket.o
    RT_METHOD=rt_socket.o
    AC_MSG_RESULT(socket)])
 fi
@@ -1009,24 +1037,22 @@ dnl ---------------------------------------------------------------
 AC_CHECK_MEMBERS([struct ip_mreqn.imr_ifindex], [], [], QUAGGA_INCLUDES)
 
 AC_MSG_CHECKING([for BSD struct ip_mreq hack])
-AC_TRY_COMPILE([#ifdef HAVE_SYS_PARAM_H
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
-#endif],[#if (defined(__FreeBSD__) && ((__FreeBSD_version >= 500022 && __FreeBSD_version < 700000) || (__FreeBSD_version < 500000 && __FreeBSD_version >= 440000))) || (defined(__NetBSD__) && defined(__NetBSD_Version__) && __NetBSD_Version__ >= 106010000)
+#endif]], [[#if (defined(__FreeBSD__) && ((__FreeBSD_version >= 500022 && __FreeBSD_version < 700000) || (__FreeBSD_version < 500000 && __FreeBSD_version >= 440000))) || (defined(__NetBSD__) && defined(__NetBSD_Version__) && __NetBSD_Version__ >= 106010000)
   return (0);
 #else
   #error No support for BSD struct ip_mreq hack detected
-#endif],[AC_MSG_RESULT(yes)
-AC_DEFINE(HAVE_BSD_STRUCT_IP_MREQ_HACK,,[Can pass ifindex in struct ip_mreq])],
-AC_MSG_RESULT(no))
+#endif]])],[AC_MSG_RESULT(yes)
+AC_DEFINE(HAVE_BSD_STRUCT_IP_MREQ_HACK,,[Can pass ifindex in struct ip_mreq])],[AC_MSG_RESULT(no)])
 
 AC_MSG_CHECKING([for RFC3678 protocol-independed API])
-AC_TRY_COMPILE([
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <sys/types.h>
 #include <netinet/in.h>
-], [struct group_req gr; int sock; setsockopt(sock, IPPROTO_IP, MCAST_JOIN_GROUP, (void*)&gr, sizeof(gr));
-], [AC_MSG_RESULT(yes)
-AC_DEFINE(HAVE_RFC3678,1,[Have RFC3678 protocol-independed API])],
-AC_MSG_RESULT(no))
+]], [[struct group_req gr; int sock; setsockopt(sock, IPPROTO_IP, MCAST_JOIN_GROUP, (void*)&gr, sizeof(gr));
+]])],[AC_MSG_RESULT(yes)
+AC_DEFINE(HAVE_RFC3678,1,[Have RFC3678 protocol-independed API])],[AC_MSG_RESULT(no)])
 
 dnl ---------------------------------------------------------------
 dnl figure out how to check link-state
@@ -1207,12 +1233,10 @@ dnl ----------
 
   if test "$zebra_cv_linux_ipv6" = "yes";then
     AC_MSG_CHECKING(whether libc has IPv6 support)
-    AC_TRY_LINK([#include <netinet/in.h>
-    ],[ int a; a = (int) in6addr_any.s6_addr[0]; if (a != 12345) return a; ],
-    [AC_MSG_RESULT(yes)
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <netinet/in.h>
+    ]], [[ int a; a = (int) in6addr_any.s6_addr[0]; if (a != 12345) return a; ]])],[AC_MSG_RESULT(yes)
       zebra_cv_ipv6=yes
-      zebra_cv_linux_ipv6=yes],
-    [AC_MSG_RESULT(no)
+      zebra_cv_linux_ipv6=yes],[AC_MSG_RESULT(no)
       zebra_cv_ipv6=no
       zebra_cv_linux_ipv6=no])
   fi
@@ -1491,11 +1515,9 @@ dnl --------------------------------------
 dnl checking for getrusage struct and call
 dnl --------------------------------------
 AC_MSG_CHECKING(whether getrusage is available)
-AC_TRY_COMPILE([#include <sys/resource.h>
-],[struct rusage ac_x; getrusage (RUSAGE_SELF, &ac_x);],
-[AC_MSG_RESULT(yes)
- AC_DEFINE(HAVE_RUSAGE,,rusage)],
- AC_MSG_RESULT(no))
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <sys/resource.h>
+]], [[struct rusage ac_x; getrusage (RUSAGE_SELF, &ac_x);]])],[AC_MSG_RESULT(yes)
+ AC_DEFINE(HAVE_RUSAGE,,rusage)],[AC_MSG_RESULT(no)])
 
 dnl --------------------------------------
 dnl checking for clock_time monotonic struct and call
@@ -1510,12 +1532,10 @@ dnl capabilities checks
 dnl -------------------
 if test "${enable_capabilities}" != "no"; then
   AC_MSG_CHECKING(whether prctl PR_SET_KEEPCAPS is available)
-  AC_TRY_COMPILE([#include <sys/prctl.h>],[prctl(PR_SET_KEEPCAPS, 1, 0, 0, 0);],
-    [AC_MSG_RESULT(yes)
+  AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <sys/prctl.h>]], [[prctl(PR_SET_KEEPCAPS, 1, 0, 0, 0);]])],[AC_MSG_RESULT(yes)
      AC_DEFINE(HAVE_PR_SET_KEEPCAPS,,prctl)
-     quagga_ac_keepcaps="yes"],
-     AC_MSG_RESULT(no)
-  )
+     quagga_ac_keepcaps="yes"],[AC_MSG_RESULT(no)
+  ])
   if test x"${quagga_ac_keepcaps}" = x"yes"; then
     AC_CHECK_HEADERS(sys/capability.h)
   fi
@@ -1528,12 +1548,10 @@ if test "${enable_capabilities}" != "no"; then
   else
     AC_CHECK_HEADERS(priv.h,
      [AC_MSG_CHECKING(Solaris style privileges are available)
-      AC_TRY_COMPILE([#include <priv.h>],[getpflags(PRIV_AWARE);],
-    	  [AC_MSG_RESULT(yes)
+      AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <priv.h>]], [[getpflags(PRIV_AWARE);]])],[AC_MSG_RESULT(yes)
     	   AC_DEFINE(HAVE_SOLARIS_CAPABILITIES,1,getpflags)
-    	   quagga_ac_scaps="yes"],
-    	   AC_MSG_RESULT(no)
-      )
+    	   quagga_ac_scaps="yes"],[AC_MSG_RESULT(no)
+      ])
      ]
    )
   fi
